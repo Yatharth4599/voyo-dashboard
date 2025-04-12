@@ -15,8 +15,46 @@ import {
   Cell,
   PieChart,
   Pie,
-  Legend
+  Legend,
+  LineChart,
+  Line,
+  CartesianGrid
 } from "recharts";
+
+const pieColors = ["#3b82f6", "#f97316", "#10b981", "#d946ef"];
+
+
+const userCallVolume = [
+  { name: "User A", value: 120 },
+  { name: "User B", value: 95 },
+  { name: "User C", value: 80 },
+  { name: "User D", value: 60 },
+  { name: "User E", value: 45 }
+];
+
+const dailyCalls = [
+  { day: "Mon", calls: 150 },
+  { day: "Tue", calls: 200 },
+  { day: "Wed", calls: 180 },
+  { day: "Thu", calls: 210 },
+  { day: "Fri", calls: 190 },
+  { day: "Sat", calls: 160 },
+  { day: "Sun", calls: 130 }
+];
+
+const avgSessionDuration = [
+  { name: "3 min", value: 30 },
+  { name: "5 min", value: 50 },
+  { name: "7 min", value: 70 },
+  { name: "10+ min", value: 40 }
+];
+
+const satisfactionScore = [
+  { name: "Very Satisfied", value: 60 },
+  { name: "Satisfied", value: 25 },
+  { name: "Neutral", value: 10 },
+  { name: "Dissatisfied", value: 5 }
+];
 
 const INDIA_GEO_JSON = "/india.geojson";
 
@@ -34,7 +72,7 @@ const colorScale = scaleLinear()
   .domain([0, 150, 300])
   .range(["#ffffff", "#6ec6ff", "#ff0000"]);
 
-const navItems = ["Dashboard", "Clients", "Data", "Users", "Settings"];
+  const navItems = ["Dashboard", "Clients", "Data Intelligence", "Users", "Settings"];
 
 const trendingLanguages = [
   { name: "Hindi", percent: 34 },
@@ -86,6 +124,66 @@ const agentScoreData = [
   { name: "Agent A", value: 85 },
   { name: "Agent B", value: 74 },
   { name: "Agent C", value: 79 }
+];
+
+// Place these above `export default function App()`
+
+const dialectUsage = [
+  { name: "Hinglish", value: 40 },
+  { name: "Hindi", value: 25 },
+  { name: "Bhojpuri", value: 15 },
+  { name: "Tamil", value: 10 },
+  { name: "Punjabi", value: 10 }
+];
+
+const slangsAdded = [
+  { name: "Week 1", value: 10 },
+  { name: "Week 2", value: 25 },
+  { name: "Week 3", value: 40 },
+  { name: "Week 4", value: 60 }
+];
+
+const lcrData = [
+  { name: "Week 1", value: 14 },
+  { name: "Week 2", value: 11 },
+  { name: "Week 3", value: 7 },
+  { name: "Week 4", value: 3 }
+];
+
+const emotionalBreakdown = [
+  { name: "Flirt", value: 30 },
+  { name: "Comfort", value: 25 },
+  { name: "Vent", value: 20 },
+  { name: "Joke", value: 15 },
+  { name: "Tease", value: 10 }
+];
+
+const trainingMinutes = [
+  { name: "Punjabi", value: 1000 },
+  { name: "Tamil", value: 1100 },
+  { name: "Bhojpuri", value: 1800 },
+  { name: "Hindi", value: 2300 },
+  { name: "Hinglish", value: 3000 }
+];
+
+const sessionLength = [
+  { name: "5", value: 100 },
+  { name: "10", value: 175 },
+  { name: "15", value: 120 },
+  { name: "20", value: 90 },
+  { name: "25", value: 80 },
+  { name: "30", value: 40 }
+];
+
+const personalityAccuracy = [
+  { name: "Week 1", value: 65 },
+  { name: "Week 2", value: 75 },
+  { name: "Week 3", value: 85 },
+  { name: "Week 4", value: 92 }
+];
+
+const intelligenceScore = [
+  { name: "Urvashi Agent", value: 90 }
 ];
 
 export default function App() {
@@ -147,7 +245,7 @@ export default function App() {
             >
               {item === "Dashboard" && "📊 Dashboard"}
               {item === "Clients" && "👥 Clients"}
-              {item === "Data" && "📁 Data"}
+              {item === "Data Intelligence" && "📁 Data Intelligence"}
               {item === "Users" && "🙋 Users"}
               {item === "Settings" && "⚙️ Settings"}
             </button>
@@ -317,7 +415,139 @@ export default function App() {
               </div>
             </div>
           </>
-        ) : ( 
+        ) : activeView === "Data Intelligence" ? (
+          <>
+            <h1 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "24px" }}>📁 VOYO Intelligence Training Dashboard</h1>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px" }}>
+              {/* Dialect Usage Pie Chart */}
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>Language & Dialect Usage Distribution</h3>
+                <PieChart width={300} height={250}>
+                  <Pie data={dialectUsage} dataKey="value" nameKey="name" outerRadius={80} label />
+                  <Legend />
+                </PieChart>
+              </div>
+        
+              {/* Slangs Over Time Line Chart */}
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>Slangs Detected & Added Over Time</h3>
+                <LineChart width={300} height={250} data={slangsAdded}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Line type="monotone" dataKey="value" stroke="#9333ea" strokeWidth={2} />
+                </LineChart>
+              </div>
+        
+              {/* Emotional Intent Bar Chart */}
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>Emotional Intent Breakdown</h3>
+                <BarChart width={300} height={250} data={emotionalBreakdown}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Bar dataKey="value" fill="#f59e0b" />
+                </BarChart>
+              </div>
+        
+              {/* LCR Line Chart */}
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>Language Confusion Rate (LCR)</h3>
+                <LineChart width={300} height={250} data={lcrData}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Line type="monotone" dataKey="value" stroke="#ef4444" strokeWidth={2} />
+                </LineChart>
+              </div>
+        
+              {/* Training Minutes by Language */}
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>Real-Time Training Minutes by Language</h3>
+                <BarChart layout="vertical" width={300} height={250} data={trainingMinutes}>
+                  <XAxis type="number" />
+                  <YAxis type="category" dataKey="name" />
+                  <Bar dataKey="value" fill="#16a34a" />
+                </BarChart>
+              </div>
+        
+              {/* Language Intelligence Score */}
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>Language Intelligence Score</h3>
+                <BarChart width={300} height={250} data={intelligenceScore}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Bar dataKey="value" fill="#3b82f6" />
+                </BarChart>
+              </div>
+        
+              {/* Session Length */}
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>Session Length Distribution</h3>
+                <BarChart width={300} height={250} data={sessionLength}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Bar dataKey="value" fill="#06b6d4" />
+                </BarChart>
+              </div>
+        
+              {/* Personality Accuracy */}
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>Adaptive Personality Accuracy Over Time</h3>
+                <LineChart width={300} height={250} data={personalityAccuracy}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Line type="monotone" dataKey="value" stroke="#d946ef" strokeWidth={2} />
+                </LineChart>
+              </div>
+            </div>
+          </>
+        ) : activeView === "Users" ? (
+          <>
+<h1 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "24px" }}>🙋 Companion Agent Usage Overview</h1>
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px" }}>
+      <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+        <h3>User-wise Call Volume</h3>
+        <BarChart width={300} height={250} data={userCallVolume}>
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Bar dataKey="value" fill="#3b82f6" />
+        </BarChart>
+      </div>
+      <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+        <h3>Calls Per Day (Last 7 Days)</h3>
+        <LineChart width={300} height={250} data={dailyCalls}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="day" />
+          <YAxis />
+          <Line type="monotone" dataKey="calls" stroke="#10b981" strokeWidth={2} />
+        </LineChart>
+      </div>
+      <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+        <h3>Average Session Duration</h3>
+        <PieChart width={300} height={250}>
+          <Pie data={avgSessionDuration} dataKey="value" nameKey="name" outerRadius={80} label>
+            {avgSessionDuration.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+            ))}
+          </Pie>
+          <Legend />
+        </PieChart>
+      </div>
+      <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+        <h3>User Satisfaction Score</h3>
+        <PieChart width={300} height={250}>
+          <Pie data={satisfactionScore} dataKey="value" nameKey="name" outerRadius={80} label>
+            {satisfactionScore.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+            ))}
+          </Pie>
+          <Legend />
+        </PieChart>
+      </div>
+    </div>
+          </>
+        ) : (
+        
+        
           <h1 style={{ fontSize: "28px", fontWeight: "bold", marginTop: "24px" }}>{activeView} section coming soon...</h1>
         )}
       </main>
