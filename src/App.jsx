@@ -23,6 +23,16 @@ import {
 
 const pieColors = ["#3b82f6", "#f97316", "#10b981", "#d946ef"];
 
+const totalVsActiveUsers = [
+  { day: "Mon", total: 100, active: 60 },
+  { day: "Tue", total: 120, active: 75 },
+  { day: "Wed", total: 130, active: 80 },
+  { day: "Thu", total: 150, active: 90 },
+  { day: "Fri", total: 160, active: 100 },
+  { day: "Sat", total: 140, active: 70 },
+  { day: "Sun", total: 110, active: 50 },
+];
+
 
 const userCallVolume = [
   { name: "User A", value: 120 },
@@ -55,6 +65,13 @@ const satisfactionScore = [
   { name: "Neutral", value: 10 },
   { name: "Dissatisfied", value: 5 }
 ];
+
+const userStats = {
+  today: { totalMinutes: 320, totalCalls: 80 },
+  yesterday: { totalMinutes: 280, totalCalls: 72 },
+  last7Days: { totalMinutes: 2040, totalCalls: 520 },
+  lastMonth: { totalMinutes: 8300, totalCalls: 2150 }
+};
 
 const INDIA_GEO_JSON = "/india.geojson";
 
@@ -191,12 +208,15 @@ export default function App() {
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [selectedClient, setSelectedClient] = useState(dummyClients[0]);
+  const [selectedFilter, setSelectedFilter] = useState("today");
+
 
   const getColor = (geo) => {
     const stateName = geo.properties.name || geo.properties.NAME_1;
     const match = heatMapData.find((d) => d.state === stateName);
     return !match || match.value === 0 ? "#ffffff" : colorScale(match.value);
   };
+  
 
   const getTooltip = (geo) => {
     const stateName = geo.properties.name || geo.properties.NAME_1;
@@ -502,48 +522,87 @@ export default function App() {
           </>
         ) : activeView === "Users" ? (
           <>
-<h1 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "24px" }}>🙋 Companion Agent Usage Overview</h1>
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px" }}>
-      <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
-        <h3>User-wise Call Volume</h3>
-        <BarChart width={300} height={250} data={userCallVolume}>
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Bar dataKey="value" fill="#3b82f6" />
-        </BarChart>
-      </div>
-      <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
-        <h3>Calls Per Day (Last 7 Days)</h3>
-        <LineChart width={300} height={250} data={dailyCalls}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" />
-          <YAxis />
-          <Line type="monotone" dataKey="calls" stroke="#10b981" strokeWidth={2} />
-        </LineChart>
-      </div>
-      <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
-        <h3>Average Session Duration</h3>
-        <PieChart width={300} height={250}>
-          <Pie data={avgSessionDuration} dataKey="value" nameKey="name" outerRadius={80} label>
-            {avgSessionDuration.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
-            ))}
-          </Pie>
-          <Legend />
-        </PieChart>
-      </div>
-      <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
-        <h3>User Satisfaction Score</h3>
-        <PieChart width={300} height={250}>
-          <Pie data={satisfactionScore} dataKey="value" nameKey="name" outerRadius={80} label>
-            {satisfactionScore.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
-            ))}
-          </Pie>
-          <Legend />
-        </PieChart>
-      </div>
-    </div>
+            <h1 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "24px" }}>🙋 Companion Agent Usage Overview</h1>
+            <div style={{ marginBottom: "20px", display: "flex", gap: "10px" }}>
+              {Object.keys(userStats).map((key) => (
+                <button
+                  key={key}
+                  onClick={() => setSelectedFilter(key)}
+                  style={{
+                    padding: "8px 14px",
+                    background: selectedFilter === key ? "#3b82f6" : "white",
+                    color: selectedFilter === key ? "white" : "#1e293b",
+                    border: "1px solid #cbd5e1",
+                    borderRadius: "8px",
+                    cursor: "pointer"
+                  }}
+                >
+                  {key === "today" && "Today"}
+                  {key === "yesterday" && "Yesterday"}
+                  {key === "last7Days" && "Last 7 Days"}
+                  {key === "lastMonth" && "1 Month"}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ background: "#fff", padding: "24px", borderRadius: "12px", display: "flex", gap: "40px", justifyContent: "space-around", marginBottom: "40px" }}>
+              <div style={{ textAlign: "center" }}>
+                <h3 style={{ fontSize: "18px", marginBottom: "8px" }}>Total Minutes</h3>
+                <div style={{ fontSize: "36px", fontWeight: "bold", color: "#0f172a" }}>{userStats[selectedFilter].totalMinutes}</div>
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <h3 style={{ fontSize: "18px", marginBottom: "8px" }}>Total Calls</h3>
+                <div style={{ fontSize: "36px", fontWeight: "bold", color: "#0f172a" }}>{userStats[selectedFilter].totalCalls}</div>
+              </div>
+            </div>
+
+            {/* Keep previous charts below this if needed */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px" }}>
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>Total Users vs Daily Active Users</h3>
+                <ResponsiveContainer width="100%" height={250}>
+                  <BarChart data={totalVsActiveUsers}>
+                    <XAxis dataKey="day" />
+                    <YAxis />
+                    <RechartsTooltip />
+                    <Legend />
+                    <Bar dataKey="total" fill="#3b82f6" name="Total Users" />
+                    <Bar dataKey="active" fill="#10b981" name="Active Users" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>Calls Per Day (Last 7 Days)</h3>
+                <LineChart width={300} height={250} data={dailyCalls}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="day" />
+                  <YAxis />
+                  <Line type="monotone" dataKey="calls" stroke="#10b981" strokeWidth={2} />
+                </LineChart>
+              </div>
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>Average Session Duration</h3>
+                <PieChart width={300} height={250}>
+                  <Pie data={avgSessionDuration} dataKey="value" nameKey="name" outerRadius={80} label>
+                    {avgSessionDuration.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+                    ))}
+                  </Pie>
+                  <Legend />
+                </PieChart>
+              </div>
+              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+                <h3>User Satisfaction Score</h3>
+                <PieChart width={300} height={250}>
+                  <Pie data={satisfactionScore} dataKey="value" nameKey="name" outerRadius={80} label>
+                    {satisfactionScore.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+                    ))}
+                  </Pie>
+                  <Legend />
+                </PieChart>
+              </div>
+            </div>
           </>
         ) : (
         
