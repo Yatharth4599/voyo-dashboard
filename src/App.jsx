@@ -73,7 +73,7 @@ const userStats = {
   lastMonth: { totalMinutes: 8300, totalCalls: 2150 }
 };
 
-const INDIA_GEO_JSON = "/india.geojson";
+const INDIA_GEO_JSON = "/dashboard/india.geojson";
 
 const heatMapData = [
   { state: "Maharashtra", value: 300, language: "Marathi", avgCallTime: 5 },
