@@ -70,23 +70,46 @@ const satisfactionScore = [
 ];
 
 const userStats = {
-  today: { totalMinutes: 320, totalCalls: 80 },
-  yesterday: { totalMinutes: 280, totalCalls: 72 },
-  last7Days: { totalMinutes: 2040, totalCalls: 520 },
-  lastMonth: { totalMinutes: 8300, totalCalls: 2150 }
+  today: { totalMinutes: 520, totalCalls: 80 },
+  yesterday: { totalMinutes: 380, totalCalls: 72 },
+  last7Days: { totalMinutes: 6000, totalCalls: 820 },
+  lastMonth: { totalMinutes: 6000, totalCalls: 820 }
 };
 
 const INDIA_GEO_JSON = "/dashboard/india.geojson";
 
 const heatMapData = [
+  { state: "Andhra Pradesh", value: 146, language: "Telugu", avgCallTime: 8 },
+  { state: "Arunachal Pradesh", value: 56, language: "Hindi", avgCallTime: 4 },
+  { state: "Assam", value: 48, language: "Assamese", avgCallTime: 5 },
+  { state: "Bihar", value: 220, language: "Hindi", avgCallTime: 5 },
+  { state: "Chhattisgarh", value: 217, language: "Hindi", avgCallTime: 6 },
+  { state: "Goa", value: 125, language: "Konkani", avgCallTime: 4 },
+  { state: "Gujarat", value: 294, language: "Gujarati", avgCallTime: 6 },
+  { state: "Haryana", value: 178, language: "Hindi", avgCallTime: 5 },
+  { state: "Himachal Pradesh", value: 204, language: "Hindi", avgCallTime: 6 },
+  { state: "Jharkhand", value: 369, language: "Hindi", avgCallTime: 4 },
+  { state: "Karnataka", value: 220, language: "Kannada", avgCallTime: 5 },
+  { state: "Kerala", value: 312, language: "Malayalam", avgCallTime: 6 },
+  { state: "Madhya Pradesh", value: 215, language: "Hindi", avgCallTime: 6 },
   { state: "Maharashtra", value: 300, language: "Marathi", avgCallTime: 5 },
-  { state: "Delhi", value: 240, language: "Hindi", avgCallTime: 6 },
-  { state: "Gujarat", value: 150, language: "Gujarati", avgCallTime: 4 },
-  { state: "Karnataka", value: 80, language: "Kannada", avgCallTime: 3 },
-  { state: "Tamil Nadu", value: 60, language: "Tamil", avgCallTime: 4 },
+  { state: "Manipur", value: 80, language: "Manipuri", avgCallTime: 4 },
+  { state: "Meghalaya", value: 67, language: "English", avgCallTime: 3 },
+  { state: "Mizoram", value: 52, language: "Mizo", avgCallTime: 4 },
+  { state: "Nagaland", value: 38, language: "English", avgCallTime: 3 },
+  { state: "Odisha", value: 86, language: "Odia", avgCallTime: 5 },
+  { state: "Punjab", value: 328, language: "Punjabi", avgCallTime: 6 },
+  { state: "Rajasthan", value: 434, language: "Hindi", avgCallTime: 5 },
+  { state: "Sikkim", value: 10, language: "Nepali", avgCallTime: 4 },
+  { state: "Tamil Nadu", value: 392, language: "Tamil", avgCallTime: 5 },
+  { state: "Telangana", value: 377, language: "Telugu", avgCallTime: 6 },
+  { state: "Tripura", value: 166, language: "Bengali", avgCallTime: 4 },
   { state: "Uttar Pradesh", value: 610, language: "Hindi", avgCallTime: 5 },
-  { state: "Bihar", value: 250, language: "Hindi", avgCallTime: 4 },
+  { state: "Uttarakhand", value: 214, language: "Hindi", avgCallTime: 4 },
+  { state: "West Bengal", value: 490, language: "Bengali", avgCallTime: 6 },
+  { state: "Delhi", value: 240, language: "Hindi", avgCallTime: 6 }
 ];
+
 
 const colorScale = scaleLinear()
   .domain([0, 150, 300])
@@ -106,6 +129,9 @@ const dummyClients = [
   { id: 1, name: "Acme Corp", minutes: 1320 },
   { id: 2, name: "Zenith Inc", minutes: 980 },
   { id: 3, name: "Globex Ltd", minutes: 1700 },
+  { id: 1, name: "PlusVC Inc", minutes: 1320 },
+  { id: 2, name: "Jacobs and Co.", minutes: 980 },
+  { id: 3, name: "Majlis ltd.", minutes: 1700 },
 ];
 
 const sentimentData = [
@@ -129,8 +155,8 @@ const languageData = [
 
 const callOutcomeData = [
   { name: "Succ", value: 320 },
-  { name: "No", value: 120 },
-  { name: "Drop", value: 60 },
+  { name: "Drop", value: 120 },
+  { name: "No", value: 60 },
   { name: "Escalated", value: 40 }
 ];
 
@@ -379,18 +405,22 @@ export default function App() {
       <Legend />
     </PieChart>
   </div>
-
-                {/* Keywords */}
-                <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
-                  <h3>Interest Keywords Detected</h3>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <BarChart layout="vertical" data={keywordData}>
-                      <XAxis type="number" />
-                      <YAxis type="category" dataKey="name" />
-                      <Bar dataKey="value" fill="#f97316" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
+{/* Keywords */}
+<div style={{ background: "#fff", padding: "16px", borderRadius: "12px", gridColumn: "1 / -1" }}>
+  <h3>Interest Keywords Detected</h3>
+  <ResponsiveContainer width="100%" height={300}>
+    <BarChart
+      layout="vertical"
+      data={keywordData}
+      margin={{ top: 10, right: 30, left: 80, bottom: 10 }}
+      barCategoryGap={12}
+    >
+      <XAxis type="number" />
+      <YAxis type="category" dataKey="name" width={100} />
+      <Bar dataKey="value" fill="#f97316" />
+    </BarChart>
+  </ResponsiveContainer>
+</div>
 
                 {/* Call Outcomes */}
                 <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
