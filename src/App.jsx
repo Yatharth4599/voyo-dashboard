@@ -23,6 +23,9 @@ import {
 
 const pieColors = ["#3b82f6", "#f97316", "#10b981", "#d946ef"];
 
+const dialectColors = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#6366f1", "#14b8a6"]; // You can expand or modify this
+
+
 const totalVsActiveUsers = [
   { day: "Mon", total: 100, active: 60 },
   { day: "Tue", total: 120, active: 75 },
@@ -364,14 +367,18 @@ export default function App() {
 
               {/* Right Analytics View */}
               <div style={{ flex: 2, display: "grid", gap: "24px", gridTemplateColumns: "1fr 1fr" }}>
-                {/* Pie Chart */}
-                <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
-                  <h3>Customer Sentiment Change</h3>
-                  <PieChart width={300} height={250}>
-                    <Pie data={sentimentData} dataKey="value" nameKey="name" outerRadius={80} label />
-                    <Legend />
-                  </PieChart>
-                </div>
+  {/* Pie Chart */}
+  <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+    <h3>Customer Sentiment Change</h3>
+    <PieChart width={300} height={250}>
+      <Pie data={sentimentData} dataKey="value" nameKey="name" outerRadius={80} label>
+        {sentimentData.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+        ))}
+      </Pie>
+      <Legend />
+    </PieChart>
+  </div>
 
                 {/* Keywords */}
                 <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
@@ -437,16 +444,20 @@ export default function App() {
           </>
         ) : activeView === "Data Intelligence" ? (
           <>
-            <h1 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "24px" }}>📁 VOYO Intelligence Training Dashboard</h1>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px" }}>
-              {/* Dialect Usage Pie Chart */}
-              <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
-                <h3>Language & Dialect Usage Distribution</h3>
-                <PieChart width={300} height={250}>
-                  <Pie data={dialectUsage} dataKey="value" nameKey="name" outerRadius={80} label />
-                  <Legend />
-                </PieChart>
-              </div>
+<h1 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "24px" }}>📁 VOYO Intelligence Training Dashboard</h1>
+<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px" }}>
+  {/* Dialect Usage Pie Chart */}
+  <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
+    <h3>Language & Dialect Usage Distribution</h3>
+    <PieChart width={300} height={250}>
+      <Pie data={dialectUsage} dataKey="value" nameKey="name" outerRadius={80} label>
+        {dialectUsage.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={dialectColors[index % dialectColors.length]} />
+        ))}
+      </Pie>
+      <Legend />
+    </PieChart>
+  </div>
         
               {/* Slangs Over Time Line Chart */}
               <div style={{ background: "#fff", padding: "16px", borderRadius: "12px" }}>
