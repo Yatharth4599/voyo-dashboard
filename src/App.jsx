@@ -21,6 +21,9 @@ import {
   CartesianGrid
 } from "recharts";
 
+import { scaleThreshold } from "d3-scale";
+
+
 const pieColors = ["#3b82f6", "#f97316", "#10b981", "#d946ef"];
 
 const dialectColors = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#6366f1", "#14b8a6"]; // You can expand or modify this
@@ -111,9 +114,9 @@ const heatMapData = [
 ];
 
 
-const colorScale = scaleLinear()
-  .domain([0, 150, 300])
-  .range(["#ffffff", "#6ec6ff", "#ff0000"]);
+const colorScale = scaleThreshold()
+  .domain([50, 150, 300, 500])
+  .range(["#fdf8f7", "#cbd5e1", "#60a5fa", "#f59e0b", "#dc2626"]);
 
   const navItems = ["Dashboard", "Clients", "Data Intelligence", "Users", "Settings"];
 
