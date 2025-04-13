@@ -128,16 +128,16 @@ const languageData = [
 ];
 
 const callOutcomeData = [
-  { name: "Success", value: 320 },
-  { name: "No Answer", value: 120 },
-  { name: "Drop-off", value: 60 },
+  { name: "Succ", value: 320 },
+  { name: "No", value: 120 },
+  { name: "Drop", value: 60 },
   { name: "Escalated", value: 40 }
 ];
 
 const crmActionsData = [
-  { name: "Lead Created", value: 210 },
-  { name: "Demo Booked", value: 130 },
-  { name: "Follow-up Task", value: 90 }
+  { name: "Lead", value: 210 },
+  { name: "Demo", value: 130 },
+  { name: "Follow-up", value: 90 }
 ];
 
 const agentScoreData = [
@@ -172,7 +172,7 @@ const lcrData = [
 
 const emotionalBreakdown = [
   { name: "Flirt", value: 30 },
-  { name: "Comfort", value: 25 },
+  { name: "Comfy", value: 25 },
   { name: "Vent", value: 20 },
   { name: "Joke", value: 15 },
   { name: "Tease", value: 10 }
