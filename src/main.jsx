@@ -1,7 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import AppRouter from './AppRouter'; // use this instead of App directly
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import App from "./App";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<AppRouter />);
-
+export default function AppRouter() {
+  return (
+    <BrowserRouter basename="/dashboard">
+      <Routes>
+        <Route path="/" element={<App />} />
+        {/* add more routes here if needed */}
+      </Routes>
+    </BrowserRouter>
+  );
+}
