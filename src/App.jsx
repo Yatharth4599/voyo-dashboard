@@ -82,7 +82,7 @@ const userStats = {
 const INDIA_GEO_JSON = "/dashboard/india.geojson";
 
 const heatMapData = [
-  { state: "Andhra Pradesh", value: 146, language: "Telugu", avgCallTime: 8 },
+  { state: "Andhra Pradesh", value: 0, language: "Telugu", avgCallTime: 8 },
   { state: "Arunachal Pradesh", value: 56, language: "Hindi", avgCallTime: 4 },
   { state: "Assam", value: 48, language: "Assamese", avgCallTime: 5 },
   { state: "Bihar", value: 220, language: "Hindi", avgCallTime: 5 },
@@ -90,9 +90,9 @@ const heatMapData = [
   { state: "Goa", value: 125, language: "Konkani", avgCallTime: 4 },
   { state: "Gujarat", value: 294, language: "Gujarati", avgCallTime: 6 },
   { state: "Haryana", value: 178, language: "Hindi", avgCallTime: 5 },
-  { state: "Himachal Pradesh", value: 204, language: "Hindi", avgCallTime: 6 },
-  { state: "Jharkhand", value: 369, language: "Hindi", avgCallTime: 4 },
-  { state: "Karnataka", value: 220, language: "Kannada", avgCallTime: 5 },
+  { state: "Himachal Pradesh", value: 0, language: "Hindi", avgCallTime: 6 },
+  { state: "Jharkhand", value: 0, language: "Hindi", avgCallTime: 4 },
+  { state: "Karnataka", value: 0, language: "Kannada", avgCallTime: 5 },
   { state: "Kerala", value: 312, language: "Malayalam", avgCallTime: 6 },
   { state: "Madhya Pradesh", value: 215, language: "Hindi", avgCallTime: 6 },
   { state: "Maharashtra", value: 300, language: "Marathi", avgCallTime: 5 },
@@ -114,9 +114,18 @@ const heatMapData = [
 ];
 
 
+
+
 const colorScale = scaleThreshold()
   .domain([50, 150, 300, 500])
-  .range(["#fdf8f7", "#cbd5e1", "#60a5fa", "#f59e0b", "#dc2626"]);
+  .range([
+    "#fff5f5", // very light pink (low)
+    "#fca5a5", // soft red
+    "#f87171", // vibrant red
+    "#ef4444", // strong red
+    "#b91c1c"  // dark red (very high activity)
+  ]);
+
 
   const navItems = ["Dashboard", "Clients", "Data Intelligence", "Users", "Settings"];
 
