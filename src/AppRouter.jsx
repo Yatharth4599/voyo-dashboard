@@ -4,7 +4,7 @@ import B2BDashboard from './B2BDashboard';
 
 export default function AppRouter() {
   return (
-    <Router>
+    <Router basename="/dashboard">
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/b2b-dashboard" element={<B2BDashboard />} />
